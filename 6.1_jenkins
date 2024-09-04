@@ -41,13 +41,13 @@ pipeline {
         }
         post {
             success {
-                mail to: "${env.EMAIL_TO}"
-                subject: "Build status email"
+                mail to: "${env.EMAIL_TO}",
+                subject: "Build status email",
                 body: "Build was succesful"
             }
             failure {
-                mail to: "${env.EMAIL_TO}"
-                subject: "Build status email"
+                mail to: "${env.EMAIL_TO}",
+                subject: "Build status email",
                 body: "Build was unsuccesful"
             }
         }
