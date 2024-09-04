@@ -23,8 +23,7 @@ pipeline {
             steps {
                 echo "perfroming security scan on the code using OpenVAS"
             }
-        }    
-        post {
+            post {
             success {
                 mail to: "${env.EMAIL_TO}",
                 subject: "Build status email",
@@ -36,6 +35,7 @@ pipeline {
                 body: "Build was unsuccesful"
             }
         }
+        }    
         stage ('Deploy to Staging') {
             steps {
                 echo "deploying the application to AWS"
