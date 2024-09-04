@@ -24,21 +24,7 @@ pipeline {
                 echo "perfroming security scan on the code using OpenVAS"
             }
         }    
-        stage ('Deploy to Staging') {
-            steps {
-                echo "deploying the application to AWS"
-            }
-        }    
-        stage ('Integration Tests on Staging') {
-            steps {
-                echo "run integration tests on "
-            }
-        }    
-        stage ('Deploy to Production') {
-            steps {
-                echo "deploying the application to AWS EC2"
-            }
-            post {
+        post {
             success {
                 mail to: "${env.EMAIL_TO}",
                 subject: "Build status email",
@@ -50,6 +36,20 @@ pipeline {
                 body: "Build was unsuccesful"
             }
         }
+        stage ('Deploy to Staging') {
+            steps {
+                echo "deploying the application to AWS"
+            }
+        }    
+        stage ('Integration Tests on Staging') {
+            steps {
+                echo "run integration tests on staging environment"
+            }
+        }    
+        stage ('Deploy to Production') {
+            steps {
+                echo "deploying the application to AWS EC2"
+            }
         }
     }
 }
