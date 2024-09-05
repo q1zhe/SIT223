@@ -16,14 +16,14 @@ pipeline {
             post {
                 success {
                     emailext{
-                        mail to: "${env.EMAIL_TO}",
+                        to: "${env.EMAIL_TO}",
                         subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - SUCCESS",
                         body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
                         attachLog: true
                     }
                 failure {
                     emailext{
-                        mail to: "${env.EMAIL_TO}",
+                        to: "${env.EMAIL_TO}",
                         subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - SUCCESS",
                         body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
                         attachLog: true
@@ -43,14 +43,14 @@ pipeline {
             post {
                 success {
                     emailext{
-                        mail to: "${env.EMAIL_TO}",
+                        to: "${env.EMAIL_TO}",
                         subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - SUCCESS",
                         body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
                         attachLog: true
                     }
                 failure {
                     emailext{
-                        mail to: "${env.EMAIL_TO}",
+                        to: "${env.EMAIL_TO}",
                         subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - SUCCESS",
                         body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
                         attachLog: true
