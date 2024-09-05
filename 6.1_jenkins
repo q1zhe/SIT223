@@ -13,6 +13,23 @@ pipeline {
             steps {
                 echo "running unit test using Selenium"
             }
+            post {
+            success {
+                emailtext{
+                    mail to: "${env.EMAIL_TO}",
+                    subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - SUCCESS",
+                    body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
+                    attachLog: true
+                }
+            failure {
+                emailtext{
+                    mail to: "${env.EMAIL_TO}",
+                    subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - SUCCESS",
+                    body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
+                    attachLog: true
+                }
+            }
+        }
         }    
         stage ('Code Analysis') {
             steps {
@@ -25,20 +42,27 @@ pipeline {
             }
             post {
             success {
-                mail to: "${env.EMAIL_TO}",
-                subject: "Build status email",
-                body: "Build was succesful"
+                emailtext{
+                    mail to: "${env.EMAIL_TO}",
+                    subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - SUCCESS",
+                    body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
+                    attachLog: true
+                }
             }
             failure {
-                mail to: "${env.EMAIL_TO}",
-                subject: "Build status email",
-                body: "Build was unsuccesful"
+                emailtext{
+                    mail to: "${env.EMAIL_TO}",
+                    subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - SUCCESS",
+                    body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
+                    attachLog: true
+                }
             }
         }
         }    
         stage ('Deploy to Staging') {
             steps {
                 echo "deploying the application to AWS"
+                sleep 2
             }
         }    
         stage ('Integration Tests on Staging') {
