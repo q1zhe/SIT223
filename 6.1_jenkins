@@ -1,15 +1,15 @@
 pipeline {
     agent any
     environment {
-        EMAIL_TO = "qizheyew@gmail.com" 
+        EMAIL_TO = "qizheyew@gmail.com"
     }
     stages {
-        stage ('Build') {
+        stage('Build') {
             steps {
                 echo "building the code using Gradle"
             }
-        }   
-        stage ('Unit and Integration Tests') {
+        }
+        stage('Unit and Integration Tests') {
             steps {
                 echo "running unit test using Selenium"
             }
@@ -21,24 +21,25 @@ pipeline {
                         body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
                         attachLog: true
                     )
+                }
                 failure {
                     emailext(
                         to: "${env.EMAIL_TO}",
-                        subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - SUCCESS",
-                        body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
+                        subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - FAILURE",
+                        body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: FAILURE",
                         attachLog: true
-                        )
-                    }
+                    )
                 }
-            }    
-        stage ('Code Analysis') {
+            }
+        }
+        stage('Code Analysis') {
             steps {
                 echo "integrating SonarQube to analyse the code"
             }
-        }    
-        stage ('Security Scan') {
+        }
+        stage('Security Scan') {
             steps {
-                echo "perfroming security scan on the code using OpenVAS"
+                echo "performing security scan on the code using OpenVAS"
             }
             post {
                 success {
@@ -48,33 +49,32 @@ pipeline {
                         body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
                         attachLog: true
                     )
+                }
                 failure {
                     emailext(
                         to: "${env.EMAIL_TO}",
-                        subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - SUCCESS",
-                        body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: SUCCESS",
+                        subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - FAILURE",
+                        body: "Project: ${env.JOB_NAME}\nBuild Number: ${env.BUILD_NUMBER}\nStatus: FAILURE",
                         attachLog: true
-                        )
-                    }
+                    )
                 }
-            }    
-        }    
-        stage ('Deploy to Staging') {
+            }
+        }
+        stage('Deploy to Staging') {
             steps {
                 echo "deploying the application to AWS"
                 sleep 2
             }
-        }    
-        stage ('Integration Tests on Staging') {
+        }
+        stage('Integration Tests on Staging') {
             steps {
-                echo "run integration tests on staging environment"
+                echo "running integration tests on staging environment"
             }
-        }    
-        stage ('Deploy to Production') {
+        }
+        stage('Deploy to Production') {
             steps {
                 echo "deploying the application to AWS EC2"
             }
-        }
         }
     }
 }
